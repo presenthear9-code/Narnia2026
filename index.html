@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>As Crônicas de Nárnia - O Espetáculo</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦁</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS Play CDN to allow running the file static/offline by just opening it locally -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-gold': '#b48a4d',
+                        'narnia-earth': '#2c1e16',
+                        'narnia-dark': '#1a0f0a',
+                        'parchment': '#e6d5c1',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS embedded for complete self-containment -->
+    <style>
+        :root {
+            --primary-gold: #b48a4d;
+            --narnia-earth: #2c1e16;
+            --narnia-dark: #1a0f0a;
+            --parchment: #e6d5c1;
+        }
+
+        body {
+            background-color: var(--narnia-dark);
+            color: var(--parchment);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .snow-particle {
+            position: fixed;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.3;
+            z-index: 50;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) translateX(20px); }
+        }
+
+        .glass {
+            background: rgba(44, 30, 22, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(180, 138, 77, 0.2);
+        }
+
+        .gold-glow {
+            box-shadow: 0 0 25px rgba(180, 138, 77, 0.15);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 15px rgba(230, 213, 193, 0.15);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--primary-gold);
+            border-radius: 10px;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scroll-snap-align-center {
+            scroll-snap-align: center;
+        }
+    </style>
+    <script>
+        // Protect fetch from being overwritten by polyfills
+        if (typeof window.fetch === 'function') {
+            const originalFetch = window.fetch;
+            try {
+                Object.defineProperty(window, 'fetch', {
+                    get: () => originalFetch,
+                    set: (v) => { console.warn('Something tried to overwrite fetch with:', v); },
+                    configurable: false
+                });
+            } catch (e) {
+                console.warn('Could not redefine fetch, it might already be protected.');
+            }
+        }
+    </script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '901051589413699');
+
+// Evento base
+fbq('track', 'PageView');
+
+// Evento de visualização
+fbq('track', 'ViewContent', {
+  content_name: 'Produto ou Página',
+  content_type: 'product'
+});
+</script>
+
+<!-- End Meta Pixel Code -->
+</head>
+<body class="min-h-screen bg-[#1a0f0a] custom-scrollbar">
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=901051589413699&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 p-4 md:p-6 flex justify-between md:justify-center items-center glass border-none bg-[#1a0f0a]/80 shadow-2xl">
+        <!-- Logo/Title for mobile -->
+        <div class="md:hidden text-[#8E7B5B] serif font-bold tracking-[0.2em] text-sm">TEATRO</div>
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center gap-12 md:gap-24">
+            <a href="#ingressos" class="text-[#8d7d6a] hover:text-[#b48a4d] transition-all text-xs md:text-sm font-bold uppercase tracking-[0.3em]">
+                Ingressos
+            </a>
+            <a href="#personagens" class="text-[#8d7d6a] hover:text-[#b48a4d] transition-all text-xs md:text-sm font-bold uppercase tracking-[0.3em]">
+                Personagens
+            </a>
+            <a href="#elenco" class="text-[#8d7d6a] hover:text-[#b48a4d] transition-all text-xs md:text-sm font-bold uppercase tracking-[0.3em]">
+                Elenco
+            </a>
+            <a href="#apoio" class="text-[#8d7d6a] hover:text-[#b48a4d] transition-all text-xs md:text-sm font-bold uppercase tracking-[0.3em]">
+                Apoio
+            </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-[#8E7B5B] focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-[#1a0f0a] flex flex-col items-center justify-center gap-8 transition-all duration-500 translate-x-full">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-[#8E7B5B]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <a href="#ingressos" class="mobile-link text-[#8d7d6a] hover:text-[#b48a4d] text-2xl font-bold uppercase tracking-[0.3em]">Ingressos</a>
+        <a href="#personagens" class="mobile-link text-[#8d7d6a] hover:text-[#b48a4d] text-2xl font-bold uppercase tracking-[0.3em]">Personagens</a>
+        <a href="#elenco" class="mobile-link text-[#8d7d6a] hover:text-[#b48a4d] text-2xl font-bold uppercase tracking-[0.3em]">Elenco</a>
+        <a href="#apoio" class="mobile-link text-[#8d7d6a] hover:text-[#b48a4d] text-2xl font-bold uppercase tracking-[0.3em]">Apoio</a>
+    </div>
+
+    <main>
+        <!-- Hero -->
+        <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+            <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/d/1tXF9_PMxEbSXcVlZGTEXOkr4y5v6pRNL')">
+                <div class="absolute inset-0 bg-gradient-to-b from-[#1a0f0a]/90 via-[#2c1e16]/60 to-[#1a0f0a]"></div>
+            </div>
+            <div class="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center">
+                <div class="mb-8 max-w-md md:max-w-xl lg:max-w-2xl transform transition-transform hover:scale-[1.02] duration-700">
+                    <img src="https://ndigitais.shop/wp-content/uploads/2026/06/Sympla.png" alt="As Crônicas de Nárnia" class="w-full h-auto drop-shadow-[0_0_20px_rgba(180,138,77,0.4)]" />
+                </div>
+                <h2 class="text-2xl md:text-4xl serif italic text-white mb-8 max-w-3xl mx-auto text-glow">
+                    Além do Guarda-Roupa, Um Mundo te Espera.
+                </h2>
+                <p class="text-lg md:text-xl font-light text-[#e6d5c1]/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    Viva a magia, a aventura e o sacrifício nesta adaptação teatral épica de C.S. Lewis. Uma experiência para toda a família.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 max-w-3xl mx-auto w-full">
+                    <div class="glass p-4 rounded-lg">
+                        <span class="block text-[#b48a4d] text-[10px] uppercase tracking-widest font-bold">Local</span>
+                        <span class="text-sm font-semibold text-[#e6d5c1]">Teatro Santo Agostinho<br>R. dos Aimorés, 2679, Lourdes</span>
+                    </div>
+                    <div class="glass p-4 rounded-lg">
+                        <span class="block text-[#b48a4d] text-[10px] uppercase tracking-widest font-bold">Data</span>
+                        <span class="text-sm font-semibold text-[#e6d5c1]">23 de Agosto</span>
+                    </div>
+                    <div class="glass p-4 rounded-lg">
+                        <span class="block text-[#b48a4d] text-[10px] uppercase tracking-widest font-bold">Horário</span>
+                        <span class="text-sm font-semibold text-[#e6d5c1]">Sessões: 16:00h e 19:00h</span>
+                    </div>
+                </div>
+                <a href="#ingressos" class="inline-block px-12 py-5 bg-[#b48a4d] hover:bg-[#8b5e3c] text-[#1a0f0a] transition-all duration-300 transform hover:scale-105 gold-glow font-bold tracking-widest text-sm uppercase shadow-2xl">
+                    GARANTIR MEU INGRESSO AGORA
+                </a>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="py-20 px-6 bg-[#1a0f0a] text-[#EFE9DC]">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-2">
+                        <h2 class="text-4xl md:text-5xl font-bold serif leading-tight">
+                            Nárnia não é apenas
+                        </h2>
+                        <h3 class="text-3xl md:text-4xl italic text-[#8E7B5B] serif">
+                            uma história.
+                        </h3>
+                    </div>
+                    <p class="text-xl italic text-[#D6D6D2] serif">
+                        "É um convite para acreditar novamente."
+                    </p>
+                    <p class="text-lg leading-relaxed text-[#D6D6D2]/80 font-light max-w-xl">
+                        Nesta adaptação teatral, crianças e adultos são levados a uma jornada de emoção, aprendizado e encantamento — longe das telas e perto do que realmente importa. Uma história que merece ser vivida ao vivo.
+                    </p>
+                    <p class="text-2xl font-bold text-[#8E7B5B] serif leading-snug max-w-md">
+                        Venha se emocionar no palco com as cenas do grande sucesso do cinema.
+                    </p>
+                </div>
+                <!-- Image Carousel replacing the Grid -->
+                <div id="gallery-carousel-container" class="relative w-full max-w-2xl mx-auto overflow-hidden rounded-3xl border border-[#b48a4d]/30 shadow-[0_25px_60px_rgba(0,0,0,0.8)] group bg-[#0c0502]" style="aspect-ratio: 3/2; transition: aspect-ratio 0.4s ease-in-out;">
+                    <!-- Slides Wrapper -->
+                    <div id="gallery-carousel" class="flex h-full w-full transition-transform duration-700 ease-out">
+                        <!-- Slide 1 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/6.jpg" alt="Cena de Nárnia 1" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/7.jpg" alt="Cena de Nárnia 2" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/8.jpg" alt="Cena de Nárnia 3" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/9.jpg" alt="Cena de Nárnia 4" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 5 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/5.jpg" alt="Cena de Nárnia 5" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 6 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/10.jpg" alt="Cena de Nárnia 6" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 7 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/3.jpg" alt="Cena de Nárnia 7" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 8 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/2.jpg" alt="Cena de Nárnia 8" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 9 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/1.jpg" alt="Cena de Nárnia 9" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                        <!-- Slide 10 -->
+                        <div class="w-full h-full flex-shrink-0 relative">
+                            <img src="https://ndigitais.shop/wp-content/uploads/2026/06/4.jpg" alt="Cena de Nárnia 10" class="w-full h-full object-cover transition-transform duration-[8s] hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0502]/60 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <button id="carousel-prev" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#1a0f0a]/80 hover:bg-[#b48a4d]/90 border border-[#b48a4d]/40 text-[#efe9dc] hover:text-[#1a0f0a] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-105 focus:outline-none z-20" aria-label="Imagem Anterior">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button id="carousel-next" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#1a0f0a]/80 hover:bg-[#b48a4d]/90 border border-[#b48a4d]/40 text-[#efe9dc] hover:text-[#1a0f0a] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-105 focus:outline-none z-20" aria-label="Próxima Imagem">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <!-- Indicators (Dots) -->
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20 bg-black/60 backdrop-blur-md py-1.5 px-3 rounded-full border border-white/10">
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#b48a4d] transition-all duration-300" data-index="0" aria-label="Ver imagem 1"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="1" aria-label="Ver imagem 2"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="2" aria-label="Ver imagem 3"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="3" aria-label="Ver imagem 4"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="4" aria-label="Ver imagem 5"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="5" aria-label="Ver imagem 6"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="6" aria-label="Ver imagem 7"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="7" aria-label="Ver imagem 8"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="8" aria-label="Ver imagem 9"></button>
+                        <button class="carousel-dot w-2 h-2 rounded-full bg-[#efe9dc]/30 transition-all duration-300 hover:bg-[#efe9dc]/65" data-index="9" aria-label="Ver imagem 10"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journey -->
+        <section class="py-24 px-6 bg-[#0a0502] text-[#EFE9DC]">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-[0.3em] serif uppercase">
+                        PARA QUEM É ESTA JORNADA?
+                    </h2>
+                    <div class="w-24 h-px bg-[#8E7B5B]/30 mx-auto mt-6"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5">
+                    <div class="p-12 flex flex-col items-center text-center space-y-6 hover:bg-white/[0.02] transition-colors">
+                        <div class="w-16 h-16 rounded-full border border-[#8E7B5B]/30 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8E7B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-sm font-bold tracking-[0.2em] uppercase">FAMÍLIAS</h3>
+                            <p class="text-sm text-[#D6D6D2]/60 font-light leading-relaxed">Famílias que desejam viver algo especial juntas</p>
+                        </div>
+                    </div>
+                    <div class="p-12 flex flex-col items-center text-center space-y-6 hover:bg-white/[0.02] transition-colors">
+                        <div class="w-16 h-16 rounded-full border border-[#8E7B5B]/30 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8E7B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/><path d="M21 17v4"/><path d="M19 19h4"/></svg>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-sm font-bold tracking-[0.2em] uppercase">Jovens</h3>
+                            <p class="text-sm text-[#D6D6D2]/60 font-light leading-relaxed">Jovens preparados para viver uma grande aventura</p>
+                        </div>
+                    </div>
+                    <div class="p-12 flex flex-col items-center text-center space-y-6 hover:bg-white/[0.02] transition-colors">
+                        <div class="w-16 h-16 rounded-full border border-[#8E7B5B]/30 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8E7B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-sm font-bold tracking-[0.2em] uppercase">GRUPOS</h3>
+                            <p class="text-sm text-[#D6D6D2]/60 font-light leading-relaxed">Escolas, igrejas e comunidades em busca de inspiração</p>
+                        </div>
+                    </div>
+                    <div class="p-12 flex flex-col items-center text-center space-y-6 hover:bg-white/[0.02] transition-colors">
+                        <div class="w-16 h-16 rounded-full border border-[#8E7B5B]/30 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8E7B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-sm font-bold tracking-[0.2em] uppercase">LEITORES</h3>
+                            <p class="text-sm text-[#D6D6D2]/60 font-light leading-relaxed">Amantes do legado épico de C.S. Lewis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section id="ingressos" class="pt-16 pb-24 px-4 bg-[#2c1e16] relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <img src="https://ndigitais.shop/wp-content/uploads/2026/03/sympla-narnia.png" alt="Sympla Nárnia" class="max-h-12 mx-auto mb-3 opacity-80" referrerPolicy="no-referrer" />
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 serif">Escolha sua <span class="text-[#b48a4d]">Experiência</span></h2>
+                    <div class="w-24 h-px bg-[#b48a4d] mx-auto mb-12"></div>
+                    <div class="max-w-4xl mx-auto mb-16">
+                        <div class="glass p-8 md:p-12 rounded-3xl border border-[#b48a4d]/30 relative overflow-hidden group shadow-2xl">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-[#b48a4d]/5 blur-3xl rounded-full -mr-16 -mt-16"></div>
+                            <div class="absolute bottom-0 left-0 w-32 h-32 bg-[#b48a4d]/5 blur-3xl rounded-full -ml-16 -mb-16"></div>
+                            <div class="relative z-10 text-center">
+                                <div class="inline-block px-4 py-1 rounded-full bg-[#b48a4d]/10 border border-[#b48a4d]/20 text-[#b48a4d] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
+                                    🎟️ Cronograma de Lotes
+                                </div>
+                                
+                                <h3 class="text-3xl md:text-5xl font-bold text-[#e6d5c1] mb-2 serif italic leading-tight">
+                                    Garanta seu lugar em <span class="text-[#b48a4d]">Nárnia</span>
+                                </h3>
+                                <p class="text-xs md:text-sm text-[#8d7d6a] uppercase tracking-[0.2em] mb-4">
+                                    Quanto mais cedo você garantir, maior o desconto!
+                                </p>
+
+                                <!-- Beautiful Promotional Price Banner (from user attachment) -->
+                                <div class="max-w-xl mx-auto bg-[#1a0f0a]/50 border border-[#b48a4d]/20 rounded-xl px-6 py-4 mb-10 flex flex-col items-center">
+                                    <p class="text-xl md:text-3xl font-bold text-[#e6d5c1] serif italic select-none">
+                                        Ingressos de <span class="line-through opacity-30 decoration-[#b48a4d] text-base md:text-xl">R$70</span> por apenas <span class="text-[#b48a4d] drop-shadow-[0_0_10px_rgba(180,138,77,0.2)]">R$35</span>
+                                    </p>
+                                    <p class="text-xs text-[#8d7d6a] italic mt-1 font-semibold tracking-wider">
+                                        (meia para todos)
+                                    </p>
+                                </div>
+
+                                <!-- Beautiful Ticket Batches Grid (Inspired by User Attachment) -->
+                                <div class="space-y-6 text-left max-w-3xl mx-auto mb-12">
+                                    
+                                    <!-- PRIMEIRO LOTE -->
+                                    <div class="flex flex-col sm:flex-row items-stretch rounded-xl overflow-hidden border border-[#b48a4d]/40 shadow-2xl hover:scale-[1.01] transition-transform duration-300 relative group/ticket">
+                                        <!-- Decorative ticket side notch (punch card effect) -->
+                                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-8 bg-[#2c1e16] rounded-r-full border-y border-r border-[#b48a4d]/30 z-10 hidden sm:block"></div>
+                                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-8 bg-[#2c1e16] rounded-l-full border-y border-l border-[#b48a4d]/30 z-10 hidden sm:block"></div>
+
+                                        <!-- Badge/Icon Column (Dark Navy/Blue Gold-framed) -->
+                                        <div class="bg-[#051c2c] p-6 flex flex-col justify-center items-center text-center sm:w-32 border-b sm:border-b-0 sm:border-r border-[#b48a4d]/30 relative">
+                                            <div class="absolute inset-1.5 border border-[#b48a4d]/30 rounded-lg pointer-events-none"></div>
+                                            <!-- Lion Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-12 h-12 text-[#b48a4d]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <!-- Crown (Coroa Imperial) -->
+                                                <path d="M30 30 L24 15 L38 22 L50 8 L62 22 L76 15 L70 30 Z" fill="currentColor" opacity="0.1" />
+                                                <path d="M30 30 L24 15 L38 22 L50 8 L62 22 L76 15 L70 30 Z" stroke="currentColor" stroke-width="2" />
+                                                <circle cx="50" cy="8" r="1.5" fill="currentColor" />
+                                                <circle cx="24" cy="15" r="1.5" fill="currentColor" />
+                                                <circle cx="76" cy="15" r="1.5" fill="currentColor" />
+                                                <circle cx="38" cy="22" r="1" fill="currentColor" />
+                                                <circle cx="62" cy="22" r="1" fill="currentColor" />
+
+                                                <!-- Outer Majestic Mane (Flowing Spikes resembling the image) -->
+                                                <path d="M30 30 C22 32 15 40 18 52 C14 62 18 72 26 80 C34 88 44 94 50 94 C56 94 66 88 74 80 C82 72 86 62 82 52 C85 40 78 32 70 30" />
+                                                
+                                                <!-- Flame/Spike Details of the Mane (Internal Juba Layers) -->
+                                                <path d="M22 45 C15 50 18 64 28 72" />
+                                                <path d="M78 45 C85 50 82 64 72 72" />
+                                                <path d="M35 83 C42 89 46 91 50 91 C54 91 58 89 65 83" />
+
+                                                <!-- Front locks of the mane surrounding the cheeks -->
+                                                <path d="M34 35 C28 38 26 48 30 58 C34 68 28 75 38 83" />
+                                                <path d="M66 35 C72 38 74 48 70 58 C66 68 72 75 62 83" />
+
+                                                <!-- Ears -->
+                                                <path d="M32 30 C28 28 26 34 29 38" />
+                                                <path d="M68 30 C72 28 74 34 71 38" />
+
+                                                <!-- Majestic Feline Face Plate outline -->
+                                                <path d="M37 42 C41 46 44 54 44 60 C44 68 47 74 50 76 C53 74 56 68 56 60 C56 54 59 46 63 42 C59 39 41 39 37 42 Z" />
+
+                                                <!-- Symmetrical Eyes (Sérios e Imponentes) -->
+                                                <path d="M40 49 C42 47 46 48 46 51" stroke-width="2.5" />
+                                                <path d="M60 49 C58 47 54 48 54 51" stroke-width="2.5" />
+                                                
+                                                <!-- Eyebrows / Angry Brow lines -->
+                                                <path d="M38 47 C41 45 45 45 47 48" />
+                                                <path d="M62 47 C59 45 55 45 53 48" />
+
+                                                <!-- Nose Bridge & Majestic Nose Shape -->
+                                                <path d="M47 51 L47 59" />
+                                                <path d="M53 51 L53 59" />
+                                                <polygon points="45,59 55,59 50,64" fill="currentColor" stroke="none" />
+
+                                                <!-- Muzzle and Whisker Base -->
+                                                <path d="M44 64 C47 67 50 66 50 64 C50 66 53 67 56 64" />
+                                                <path d="M42 67 C46 71 50 70 50 67 C50 70 54 71 58 67" />
+
+                                                <!-- Chin Beard (Pointy beard typical of Royal Lions) -->
+                                                <path d="M46 72 L50 82 L54 72" />
+                                                <path d="M48 76 L50 85 L52 76" />
+                                            </svg>
+                                        </div>
+
+                                        <!-- Ticket Information Middle Column (Parchment background #f7ebd4) -->
+                                        <div class="flex-1 bg-gradient-to-br from-[#fcf7ec] to-[#f4e2c1] px-6 py-6 md:py-8 flex flex-col justify-center text-left relative">
+                                            <div class="absolute inset-1.5 border border-[#b48a4d]/20 rounded-lg pointer-events-none"></div>
+                                            <div class="flex items-center gap-2 mb-1">
+                                                <h4 class="text-xl md:text-2xl font-extrabold text-[#1a2d42] tracking-wider uppercase serif">Primeiro Lote</h4>
+                                            </div>
+                                            <p class="text-sm md:text-base text-[#1a2d42]/80 font-extrabold tracking-widest flex items-center gap-1.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#b48a4d]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                                DE 23/06 Á 15/07
+                                            </p>
+                                        </div>
+
+                                        <!-- Ticket Price Container (Right Side - Dark Blue themed) -->
+                                        <div class="bg-[#051c2c] px-8 py-6 md:py-8 flex items-center justify-center sm:w-56 border-t sm:border-t-0 sm:border-l border-[#b48a4d]/30 relative">
+                                            <div class="absolute inset-1.5 border border-[#b48a4d]/30 rounded-lg pointer-events-none"></div>
+                                            <div class="flex items-baseline gap-1">
+                                                <span class="text-sm font-bold text-[#b48a4d]">R$</span>
+                                                <span class="text-4xl md:text-5xl font-black text-[#e6d5c1] serif drop-shadow-[0_2px_10px_rgba(180,138,77,0.4)]">35,00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SEGUNDO LOTE -->
+                                    <div class="flex flex-col sm:flex-row items-stretch rounded-xl overflow-hidden border border-[#b48a4d]/40 shadow-2xl hover:scale-[1.01] transition-transform duration-300 relative group/ticket">
+                                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-8 bg-[#2c1e16] rounded-r-full border-y border-r border-[#b48a4d]/30 z-10 hidden sm:block"></div>
+                                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-8 bg-[#2c1e16] rounded-l-full border-y border-l border-[#b48a4d]/30 z-10 hidden sm:block"></div>
+
+                                        <!-- Badge/Icon Column (Maroon themed) -->
+                                        <div class="bg-[#4a0d0e] p-6 flex flex-col justify-center items-center text-center sm:w-32 border-b sm:border-b-0 sm:border-r border-[#b48a4d]/30 relative">
+                                            <div class="absolute inset-1.5 border border-[#c39c5b]/30 rounded-lg pointer-events-none"></div>
+                                            <!-- Shield & Sword Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#b48a4d" stroke-width="1.2" class="w-12 h-12 text-[#b48a4d]" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                                <path d="M14.5 17.5 7 10M16.5 15.5l1.5 1.5M15 17l1.5 1.5M10.5 7.5l6 6M8.5 9.5l6-6"/>
+                                            </svg>
+                                        </div>
+
+                                        <!-- Ticket Information Middle Column (Parchment background) -->
+                                        <div class="flex-1 bg-gradient-to-br from-[#fcf7ec] to-[#f4e2c1] px-6 py-6 md:py-8 flex flex-col justify-center text-left relative">
+                                            <div class="absolute inset-1.5 border border-[#b48a4d]/20 rounded-lg pointer-events-none"></div>
+                                            <h4 class="text-xl md:text-2xl font-extrabold text-[#5c1315] tracking-wider uppercase serif mb-1">Segundo Lote</h4>
+                                            <p class="text-sm md:text-base text-[#5c1315]/80 font-extrabold tracking-widest flex items-center gap-1.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#b48a4d]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                                DE 11/07 Á 31/07
+                                            </p>
+                                        </div>
+
+                                        <!-- Ticket Price Container (Right Side - Maroon themed) -->
+                                        <div class="bg-[#4a0d0e] px-8 py-6 md:py-8 flex items-center justify-center sm:w-56 border-t sm:border-t-0 sm:border-l border-[#b48a4d]/30 relative">
+                                            <div class="absolute inset-1.5 border border-[#c39c5b]/30 rounded-lg pointer-events-none"></div>
+                                            <div class="flex items-baseline gap-1">
+                                                <span class="text-sm font-bold text-[#b48a4d]">R$</span>
+                                                <span class="text-4xl md:text-5xl font-black text-[#e6d5c1] serif drop-shadow-[0_2px_10px_rgba(180,138,77,0.4)]">40,00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- TERCEIRO LOTE -->
+                                    <div class="flex flex-col sm:flex-row items-stretch rounded-xl overflow-hidden border border-[#b48a4d]/40 shadow-2xl hover:scale-[1.01] transition-transform duration-300 relative group/ticket">
+                                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-8 bg-[#2c1e16] rounded-r-full border-y border-r border-[#b48a4d]/30 z-10 hidden sm:block"></div>
+                                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-8 bg-[#2c1e16] rounded-l-full border-y border-l border-[#b48a4d]/30 z-10 hidden sm:block"></div>
+
+                                        <!-- Badge/Icon Column (Forest Green themed) -->
+                                        <div class="bg-[#0e3a1f] p-6 flex flex-col justify-center items-center text-center sm:w-32 border-b sm:border-b-0 sm:border-r border-[#b48a4d]/30 relative">
+                                            <div class="absolute inset-1.5 border border-[#c39c5b]/30 rounded-lg pointer-events-none"></div>
+                                            <!-- Crown Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#b48a4d" stroke-width="1.2" class="w-12 h-12 text-[#b48a4d]" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/>
+                                                <path d="M3 20h18"/>
+                                            </svg>
+                                        </div>
+
+                                        <!-- Ticket Information Middle Column (Parchment background with extra message) -->
+                                        <div class="flex-1 bg-gradient-to-br from-[#fcf7ec] to-[#f4e2c1] px-6 py-6 md:py-8 flex flex-col justify-center text-left relative">
+                                            <div class="absolute inset-1.5 border border-[#b48a4d]/20 rounded-lg pointer-events-none"></div>
+                                            <h4 class="text-xl md:text-2xl font-extrabold text-[#0e3a1f] tracking-wider uppercase serif mb-1">Terceiro Lote</h4>
+                                            <p class="text-sm md:text-base text-[#0e3a1f]/80 font-extrabold tracking-widest flex items-center gap-1.5 mb-1.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#b48a4d]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                                DE 01/08 Á 22/08
+                                            </p>
+                                        </div>
+
+                                        <!-- Ticket Price Container (Right Side - Green themed) -->
+                                        <div class="bg-[#0e3a1f] px-8 py-6 md:py-8 flex items-center justify-center sm:w-56 border-t sm:border-t-0 sm:border-l border-[#b48a4d]/30 relative">
+                                            <div class="absolute inset-1.5 border border-[#c39c5b]/30 rounded-lg pointer-events-none"></div>
+                                            <div class="flex items-baseline gap-1">
+                                                <span class="text-sm font-bold text-[#b48a4d]">R$</span>
+                                                <span class="text-4xl md:text-5xl font-black text-[#e6d5c1] serif drop-shadow-[0_2px_10px_rgba(180,138,77,0.4)]">50,00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-y-12 md:gap-8 max-w-6xl mx-auto">
+                    
+                    <!-- INGRESSO INDIVIDUAL -->
+                    <div class="bg-gradient-to-b from-[#051c2c] to-[#01101d] border-2 border-[#b48a4d]/50 rounded-2xl p-6 md:p-8 shadow-2xl relative flex flex-col justify-between group">
+                        <div class="absolute inset-1.5 border border-[#b48a4d]/25 rounded-xl pointer-events-none"></div>
+                        <div class="relative z-10 flex flex-col items-center text-center">
+                            
+                            <!-- Gold Shield Circle Icon (Single ticket with star) -->
+                            <div class="w-24 h-24 rounded-full border-2 border-[#b48a4d] flex items-center justify-center mb-6 bg-gradient-to-b from-[#112a3d] to-[#041423] shadow-[0_0_20px_rgba(180,138,77,0.3)] transition-transform group-hover:scale-105 duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" class="w-14 h-14 text-[#b48a4d] drop-shadow-[0_2px_8px_rgba(180,138,77,0.4)]">
+                                    <path d="M8 14 C12 14 12 18 8 18 V30 C12 30 12 34 8 34 H40 C36 34 36 30 40 30 V18 C36 18 36 14 40 14 H8 Z" stroke="#b48a4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <polygon points="24,20 25.5,23 28.5,23.5 26,25.5 26.5,28.5 24,27 21.5,28.5 22,25.5 19.5,23.5 22.5,23" fill="#b48a4d" />
+                                </svg>
+                            </div>
+                            
+                            <!-- Label -->
+                            <h3 class="text-xl font-bold text-[#e6d5c1] serif uppercase tracking-wider mb-3 leading-snug">
+                                INGRESSO INDIVIDUAL:
+                            </h3>
+                            
+                            <!-- Price -->
+                            <div class="flex items-baseline justify-center gap-1.5 mb-4 select-none">
+                                <span class="text-xl font-bold text-[#b48a4d] drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">R$</span>
+                                <span class="text-6xl font-black text-[#e6d5c1] serif drop-shadow-[0_2px_15px_rgba(180,138,77,0.4)]">35</span>
+                                <span class="text-3xl font-bold text-[#e6d5c1] serif drop-shadow-[0_2px_15px_rgba(180,138,77,0.4)]">,00</span>
+                            </div>
+
+                            <!-- Gold Ornamental Divider (Exactly like the attachment line) -->
+                            <div class="flex items-center justify-center gap-3 w-40 mb-6">
+                                <div class="h-[1.5px] bg-gradient-to-r from-transparent to-[#b48a4d]/50 flex-1"></div>
+                                <div class="w-2 h-2 rotate-45 border border-[#b48a4d] bg-[#051c2c]"></div>
+                                <div class="h-[1.5px] bg-gradient-to-l from-transparent to-[#b48a4d]/50 flex-1"></div>
+                            </div>
+                            
+                            <!-- Perks List -->
+                            <ul class="text-[#8d7d6a] space-y-2.5 text-sm w-full text-left mb-8">
+                                <li class="flex items-start gap-2.5">
+                                    <span class="text-[#b48a4d]/80 text-xs mt-0.5">✦</span>
+                                    <span>Acesso exclusivo à apresentação teatral</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <span class="text-[#b48a4d]/80 text-xs mt-0.5">✦</span>
+                                    <span>Escolha livre de assento no Teatro</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <span class="text-[#b48a4d]/80 text-xs mt-0.5">✦</span>
+                                    <span>Experiência viva de C.S. Lewis</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="w-full space-y-3 relative z-10">
+                            <a href="https://www.sympla.com.br/evento/ingresso-individual---as-cronicas-de-narnia---o-espetaculo---16hr/3473070" target="_blank" class="block w-full py-3.5 rounded-md bg-[#b48a4d]/20 border border-[#b48a4d] text-[#e6d5c1] hover:bg-[#b48a4d] hover:text-[#1a0f0a] font-bold uppercase text-[10px] tracking-widest text-center transition-all duration-300 shadow-md">
+                                Eu vou na sessão das 16h
+                            </a>
+                            <a href="https://www.sympla.com.br/evento/ingresso-individual---as-cronicas-de-narnia---o-espetaculo---19hr/3473134" target="_blank" class="block w-full py-3.5 rounded-md bg-[#b48a4d]/20 border border-[#b48a4d] text-[#e6d5c1] hover:bg-[#b48a4d] hover:text-[#1a0f0a] font-bold uppercase text-[10px] tracking-widest text-center transition-all duration-300 shadow-md">
+                                Eu vou na sessão das 19h
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- INGRESSO DUPLO + EBOOK -->
+                    <div class="bg-gradient-to-b from-[#051c2c] to-[#01101d] border-2 border-[#b48a4d] rounded-2xl p-6 md:p-8 shadow-[0_0_30px_rgba(180,138,77,0.15)] relative flex flex-col justify-between group md:scale-105 z-10">
+                        <div class="absolute inset-1.5 border border-[#b48a4d]/30 rounded-xl pointer-events-none"></div>
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#b48a4d] text-[#051c2c] text-[9px] px-4 py-1.5 rounded-full font-black uppercase tracking-widest shadow-md z-20 whitespace-nowrap text-center flex items-center justify-center gap-1">
+                            OFERTA RECOMENDADA⭐
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center text-center">
+                            
+                            <!-- Gold Shield Circle Icon (Double ticket + book) -->
+                            <div class="w-24 h-24 rounded-full border-2 border-[#b48a4d] flex items-center justify-center mb-6 bg-gradient-to-b from-[#112a3d] to-[#041423] shadow-[0_0_20px_rgba(180,138,77,0.3)] transition-transform group-hover:scale-105 duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" class="w-14 h-14 text-[#b48a4d] drop-shadow-[0_2px_8px_rgba(180,138,77,0.4)]">
+                                    <path d="M6 14 C10 14 10 18 6 18 V26 C10 26 10 30 6 30 V34 H22 V14 H6 Z" stroke="#b48a4d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <polygon points="14,20 15.5,23 18.5,23.5 16,25.5 16.5,28.5 14,27 11.5,28.5 12,25.5 9.5,23.5 12.5,23" fill="#b48a4d" />
+                                    <path d="M26 24 H30 M28 22 V26" stroke="#b48a4d" stroke-width="2" stroke-linecap="round" />
+                                    <path d="M33 32 C36 30 38 30 42 32 V20 C38 18 36 18 33 20 V32 Z" stroke="#b48a4d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor" fill-opacity="0.1" />
+                                    <path d="M33 32 C30 30 28 30 25 32 C25 32 25 21 25 20 C28 18 30 18 33 20" stroke="#b48a4d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M33 20 V32" stroke="#b48a4d" stroke-width="2" />
+                                </svg>
+                            </div>
+                            
+                            <!-- Label -->
+                            <h3 class="text-xl font-bold text-[#e6d5c1] serif uppercase tracking-wider mb-3 leading-snug">
+                                INGRESSO DUPLO + EBOOK:
+                            </h3>
+                            
+                            <!-- Price -->
+                            <div class="flex items-baseline justify-center gap-1.5 mb-4 select-none">
+                                <span class="text-xl font-bold text-[#b48a4d] drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">R$</span>
+                                <span class="text-6xl font-black text-[#e6d5c1] serif drop-shadow-[0_2px_15px_rgba(180,138,77,0.4)]">70</span>
+                                <span class="text-3xl font-bold text-[#e6d5c1] serif drop-shadow-[0_2px_15px_rgba(180,138,77,0.4)]">,00</span>
+                            </div>
+
+                            <!-- Gold Ornamental Divider -->
+                            <div class="flex items-center justify-center gap-3 w-40 mb-3">
+                                <div class="h-[1.5px] bg-gradient-to-r from-transparent to-[#b48a4d]/50 flex-1"></div>
+                                <div class="w-2 h-2 rotate-45 border border-[#b48a4d] bg-[#051c2c]"></div>
+                                <div class="h-[1.5px] bg-gradient-to-l from-transparent to-[#b48a4d]/50 flex-1"></div>
+                            </div>
+
+                            <!-- Ebook Cover Integration (Extremely polished) -->
+                            <div class="my-4 relative w-44 h-44 flex items-center justify-center bg-[#112a3d]/20 p-3 rounded-2xl border border-[#b48a4d]/20">
+                                <img src="https://ndigitais.shop/wp-content/uploads/2026/03/Ebook-Narnia-e1774008586995.png" alt="E-book Nárnia" class="h-36 w-auto object-contain rounded shadow-[0_8px_20px_rgba(0,0,0,0.6)] transition-all duration-500 group-hover:scale-110" referrerPolicy="no-referrer" />
+                            </div>
+                            
+                            <!-- Perks List -->
+                            <ul class="text-[#8d7d6a] space-y-2 text-xs w-full text-left mb-6">
+                                <li class="flex items-start gap-2.5">
+                                    <span class="text-[#b48a4d]/80 text-xs mt-0.5">✦</span>
+                                    <span>Assentos juntos para ir acompanhado</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <span class="text-[#b48a4d]/80 text-xs mt-0.5">✦</span>
+                                    <span><span class="font-extrabold text-[#b48a4d] uppercase tracking-wider">O livro digital</span> "As Crônicas de Nárnia" (No seu ingresso, você encontrará um QR Code exclusivo para baixar o e-book.)Obs: Capa meramente ilustrativa</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="w-full space-y-3 relative z-10">
+                            <a href="https://www.sympla.com.br/evento/ingresso-duplo--e-book---as-cronicas-de-narnia---16hr/3473090" target="_blank" class="block w-full py-3.5 rounded-md bg-[#b48a4d] text-[#051c2c] hover:bg-[#8b5e3c] hover:text-[#e6d5c1] font-bold uppercase text-[10px] tracking-widest text-center transition-all duration-300 shadow-lg font-black">
+                                Eu vou na sessão das 16h
+                            </a>
+                            <a href="https://www.sympla.com.br/evento/ingresso-duplo--e-book---as-cronicas-de-narnia---19hr/3473146" target="_blank" class="block w-full py-3.5 rounded-md bg-[#b48a4d] text-[#051c2c] hover:bg-[#8b5e3c] hover:text-[#e6d5c1] font-bold uppercase text-[10px] tracking-widest text-center transition-all duration-300 shadow-lg font-black">
+                                Eu vou na sessão das 19h
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CARAVANA 10 PESSOAS -->
+                    <div class="bg-gradient-to-b from-[#051c2c] to-[#01101d] border-2 border-[#b48a4d]/50 rounded-2xl p-6 md:p-8 shadow-2xl relative flex flex-col justify-between group">
+                        <div class="absolute inset-1.5 border border-[#b48a4d]/25 rounded-xl pointer-events-none"></div>
+                        <div class="relative z-10 flex flex-col items-center text-center">
+                            
+                            <!-- Gold Shield Circle Icon (Group icon) -->
+                            <div class="w-24 h-24 rounded-full border-2 border-[#b48a4d] flex items-center justify-center mb-6 bg-gradient-to-b from-[#112a3d] to-[#041423] shadow-[0_0_20px_rgba(180,138,77,0.3)] transition-transform group-hover:scale-105 duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" class="w-14 h-14 text-[#b48a4d] drop-shadow-[0_2px_8px_rgba(180,138,77,0.4)]">
+                                    <circle cx="17" cy="19" r="5" stroke="#b48a4d" stroke-width="2.2" />
+                                    <path d="M10 32 C10 27 15 26 17 26 C19 26 21 27 21 29" stroke="#b48a4d" stroke-width="2.2" stroke-linecap="round" />
+                                    <circle cx="31" cy="19" r="5" stroke="#b48a4d" stroke-width="2.2" />
+                                    <path d="M27 29 C27 27 29 26 31 26 C33 26 38 27 38 32" stroke="#b48a4d" stroke-width="2.2" stroke-linecap="round" />
+                                    <circle cx="24" cy="17" r="6" stroke="#b48a4d" stroke-width="2.2" fill="#051c2c" />
+                                    <path d="M15 32 C15 26 19 24 24 24 C29 24 33 26 33 32" stroke="#b48a4d" stroke-width="2.2" fill="#051c2c" />
+                                </svg>
+                            </div>
+                            
+                            <!-- Label -->
+                            <h3 class="text-xl font-bold text-[#e6d5c1] serif uppercase tracking-wider mb-3 leading-snug">
+                                CARAVANA 10 PESSOAS:
+                            </h3>
+                            
+                            <!-- Price -->
+                            <div class="flex items-baseline justify-center gap-1.5 mb-4 select-none">
+                                <span class="text-xl font-bold text-[#b48a4d] drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">R$:</span>
+                                <span class="text-6xl font-black text-[#e6d5c1] serif drop-shadow-[0_2px_15px_rgba(180,138,77,0.4)]">300</span>
+                                <span class="text-3xl font-bold text-[#e6d5c1] serif drop-shadow-[0_2px_15px_rgba(180,138,77,0.4)]">,00</span>
+                            </div>
+
+                            <!-- Gold Ornamental Divider -->
+                            <div class="flex items-center justify-center gap-3 w-40 mb-3">
+                                <div class="h-[1.5px] bg-gradient-to-r from-transparent to-[#b48a4d]/50 flex-1"></div>
+                                <div class="w-2 h-2 rotate-45 border border-[#b48a4d] bg-[#051c2c]"></div>
+                                <div class="h-[1.5px] bg-gradient-to-l from-transparent to-[#b48a4d]/50 flex-1"></div>
+                            </div>
+
+                            <!-- Subtitle: cada ingresso sai por 30 reais -->
+                            <div class="mb-4">
+                                <span class="text-xs font-extrabold text-[#b48a4d] uppercase tracking-widest px-3 py-1 bg-[#b48a4d]/10 border border-[#b48a4d]/25 rounded-md text-glow shadow-inner select-none">
+                                    CADA INGRESSO SAI POR 30 REAIS
+                                </span>
+                            </div>
+                            
+                            <!-- Perks List -->
+                            <ul class="text-[#8d7d6a] space-y-2.5 text-sm w-full text-left mb-8">
+                                <li class="flex items-start gap-2.5">
+                                    <span class="text-[#b48a4d]/80 text-xs mt-0.5">✦</span>
+                                    <span>Excelente desconto para grupos</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <span class="text-[#b48a4d]/80 text-xs mt-0.5">✦</span>
+                                    <span>Ideal para igrejas, escolas e famílias grandes</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="w-full space-y-3 relative z-10">
+                            <a href="https://www.sympla.com.br/evento/caravana-10-pessoas---as-cronicas-de-narnia---16hrs/3473112" target="_blank" class="block w-full py-3.5 rounded-md bg-[#b48a4d]/20 border border-[#b48a4d] text-[#e6d5c1] hover:bg-[#b48a4d] hover:text-[#1a0f0a] font-bold uppercase text-[10px] tracking-widest text-center transition-all duration-300 shadow-md">
+                                Eu vou na sessão das 16h
+                            </a>
+                            <a href="https://www.sympla.com.br/evento/caravana-10-pessoas---as-cronicas-de-narnia---19hrs/3473148" target="_blank" class="block w-full py-3.5 rounded-md bg-[#b48a4d]/20 border border-[#b48a4d] text-[#e6d5c1] hover:bg-[#b48a4d] hover:text-[#1a0f0a] font-bold uppercase text-[10px] tracking-widest text-center transition-all duration-300 shadow-md">
+                                Eu vou na sessão das 19h
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Cast -->
+        <section id="elenco" class="py-12 bg-[#0a0502] overflow-hidden relative">
+            <div class="max-w-7xl mx-auto px-6 mb-4">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-[0.3em] serif uppercase text-[#EFE9DC]">
+                        O ELENCO
+                    </h2>
+                    <div class="w-24 h-px bg-[#8E7B5B]/30 mx-auto mt-6 mb-8"></div>
+                    <p class="text-[#D6D6D2]/60 italic serif text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                        "Onde a realidade se curva à magia, e os heróis de Lewis ganham alma."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button id="prev-cast" class="absolute top-[60%] left-2 md:left-4 z-20 -translate-y-1/2 p-2 md:p-3 bg-[#8E7B5B]/40 hover:bg-[#8E7B5B]/60 text-[#EFE9DC] rounded-full transition-all border border-[#8E7B5B]/30 flex items-center justify-center shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 md:w-6 md:h-6"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button id="next-cast" class="absolute top-[60%] right-2 md:right-4 z-20 -translate-y-1/2 p-2 md:p-3 bg-[#8E7B5B]/40 hover:bg-[#8E7B5B]/60 text-[#EFE9DC] rounded-full transition-all border border-[#8E7B5B]/30 flex items-center justify-center shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 md:w-6 md:h-6"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+
+            <!-- Carousel Container -->
+            <div id="cast-carousel" class="flex overflow-x-auto hide-scrollbar gap-6 md:gap-12 px-8 md:px-24 pb-12" style="scroll-snap-type: x mandatory;">
+                <!-- Cast members will be injected here -->
+            </div>
+        </section>
+
+        <!-- Characters (Personagens) -->
+        <section id="personagens" class="py-16 md:py-24 bg-[#050201] overflow-hidden relative">
+            <div class="max-w-7xl mx-auto px-6 mb-12 relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h2 class="text-4xl md:text-6xl font-black tracking-tight text-white font-sans uppercase">
+                        Personagens
+                    </h2>
+                    <div class="w-20 h-1 bg-[#b48a4d] mt-4"></div>
+                </div>
+                <p class="text-[#D6D6D2]/50 italic serif text-sm md:text-base max-w-md">
+                    Descubra os heróis e vilões que cruzaram o guarda-roupa para dar vida à maior aventura de Nárnia.
+                </p>
+            </div>
+
+            <!-- Carousel block with absolute side controls -->
+            <div class="relative max-w-7xl mx-auto px-4 md:px-6">
+                <!-- Navigation Arrows on the sides, matching the user's uploaded layout -->
+                <button id="prev-char" class="absolute top-1/2 -left-2 md:-left-4 z-30 -translate-y-1/2 w-12 h-12 bg-black/70 hover:bg-[#b48a4d] hover:text-[#050201] text-[#EFE9DC] border border-[#b48a4d]/30 hover:border-transparent rounded-full flex items-center justify-center transition-all duration-300 shadow-xl" aria-label="Personagem anterior">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <button id="next-char" class="absolute top-1/2 -right-2 md:-right-4 z-30 -translate-y-1/2 w-12 h-12 bg-black/70 hover:bg-[#b48a4d] hover:text-[#050201] text-[#EFE9DC] border border-[#b48a4d]/30 hover:border-transparent rounded-full flex items-center justify-center transition-all duration-300 shadow-xl" aria-label="Próximo personagem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+
+                <!-- Carousel Container -->
+                <div id="char-carousel" class="flex overflow-x-auto hide-scrollbar gap-6 md:gap-8 px-4 md:px-0 pb-16" style="scroll-snap-type: x mandatory;">
+                    <!-- Characters will be dynamically injected here via main.ts -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials (Depoimentos) -->
+        <section id="depoimentos" class="py-16 md:py-24 bg-[#110805] overflow-hidden relative border-t border-[#b48a4d]/10">
+            <!-- Background subtle patterns -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/leather.png')]"></div>
+            <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#050201] to-transparent"></div>
+            
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight text-white font-sans uppercase">
+                        Depoimentos
+                    </h2>
+                    <div class="w-20 h-1 bg-[#b48a4d] mx-auto mt-4"></div>
+                    <p class="text-[#D6D6D2]/60 italic serif text-sm md:text-base max-w-md mx-auto mt-6">
+                        O que o público diz sobre a nossa emocionante viagem ao reino de Nárnia.
+                    </p>
+                </div>
+
+                <!-- Carousel Container -->
+                <div class="relative max-w-[380px] mx-auto px-4 group">
+                    <!-- Carousel Window -->
+                    <div class="overflow-hidden rounded-2xl border border-[#b48a4d]/20 bg-[#1a0f0a]/80 backdrop-blur-sm shadow-2xl relative aspect-[9/16] w-full">
+                        <!-- Background glow -->
+                        <div class="absolute -inset-1 bg-gradient-to-r from-[#b48a4d]/20 to-transparent rounded-2xl blur-lg pointer-events-none opacity-55"></div>
+                        
+                        <!-- Slides Wrapper -->
+                        <div id="depoimentos-carousel" class="flex h-full transition-transform duration-700 ease-in-out">
+                            <!-- Slide 1 -->
+                            <div class="w-full h-full flex-shrink-0 flex justify-center items-center">
+                                <img src="https://ndigitais.shop/wp-content/uploads/2026/06/depoimentos-1-scaled.png" alt="Depoimento 1" class="w-full h-full object-cover select-none" referrerPolicy="no-referrer" />
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="w-full h-full flex-shrink-0 flex justify-center items-center">
+                                <img src="https://ndigitais.shop/wp-content/uploads/2026/06/depoimentos-2-scaled.png" alt="Depoimento 2" class="w-full h-full object-cover select-none" referrerPolicy="no-referrer" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <!-- Left Button -->
+                    <button id="depo-prev" class="absolute left-2 md:-left-14 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1a0f0a]/90 border border-[#b48a4d]/30 text-[#b48a4d] hover:bg-[#b48a4d] hover:text-[#1a0f0a] flex items-center justify-center transition-all duration-300 shadow-xl focus:outline-none z-20 group/btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 md:w-6 md:h-6 transform group-hover/btn:-translate-x-0.5 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <!-- Right Button -->
+                    <button id="depo-next" class="absolute right-2 md:-right-14 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1a0f0a]/90 border border-[#b48a4d]/30 text-[#b48a4d] hover:bg-[#b48a4d] hover:text-[#1a0f0a] flex items-center justify-center transition-all duration-300 shadow-xl focus:outline-none z-20 group/btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 md:w-6 md:h-6 transform group-hover/btn:translate-x-0.5 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+
+                    <!-- Indicators (dots) -->
+                    <div class="flex justify-center gap-3 mt-8">
+                        <button class="depo-dot w-2.5 h-2.5 rounded-full bg-[#b48a4d] transition-all duration-300 focus:outline-none" data-slide="0" aria-label="Slide 1"></button>
+                        <button class="depo-dot w-2.5 h-2.5 rounded-full bg-[#efe9dc]/30 hover:bg-[#b48a4d]/50 transition-all duration-300 focus:outline-none" data-slide="1" aria-label="Slide 2"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cultural Support (PATROCÍNIO E APOIO CULTURAL) with 3 placeholder cards -->
+        <section id="apoio" class="py-12 px-6 bg-[#0a0502] relative overflow-hidden">
+            <!-- Background particles -->
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-pulse"></div>
+                <div class="absolute top-3/4 right-1/3 w-1 h-1 bg-white rounded-full animate-pulse" style="animation-delay: 1s"></div>
+                <div class="absolute top-1/2 right-1/4 w-1 h-1 bg-white rounded-full animate-pulse" style="animation-delay: 2s"></div>
+            </div>
+
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-[0.2em] md:tracking-[0.4em] serif uppercase text-[#EFE9DC] leading-relaxed">
+                        PATROCÍNIO E <br class="md:hidden" /> APOIO CULTURAL
+                    </h2>
+                    <div class="flex items-center justify-center gap-4 mt-8">
+                        <div class="w-12 h-px bg-[#8E7B5B]/40"></div>
+                        <div class="w-2 h-2 rotate-45 border border-[#8E7B5B]/40"></div>
+                        <div class="w-12 h-px bg-[#8E7B5B]/40"></div>
+                    </div>
+                </div>
+
+                <!-- 3 Metallic Sponsor Placeholders matching the user image perfectly -->
+                <div id="support-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 max-w-5xl mx-auto">
+                    
+                    <!-- Placeholder 1 -->
+                    <div class="relative group flex justify-center">
+                        <div class="w-full max-w-[340px] h-[148px] bg-gradient-to-b from-[#b48a4d]/60 via-[#e6d5c1]/30 to-[#b48a4d]/15 p-[3px] rounded-xl shadow-[0_15px_35px_rgba(0,0,0,0.6)] transition-all duration-500 hover:scale-105 hover:-translate-y-2">
+                            <div class="w-full h-full bg-gradient-to-br from-[#f1f3f5] via-[#cbd5e1] to-[#94a3b8] rounded-[9px] flex items-center justify-center relative overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.2)]">
+                                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.15)_100%)] rounded-[9px] pointer-events-none"></div>
+                                
+                                <!-- Corner Filigree Ornament (Upper-left) -->
+                                <svg class="absolute top-2.5 left-2.5 w-14 h-14 text-gray-500/35 pointer-events-none" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <path d="M 5 5 Q 12 5 20 8 Q 28 11 35 11" stroke-linecap="round"/>
+                                    <path d="M 5 5 Q 5 12 8 20 Q 11 28 11 35" stroke-linecap="round"/>
+                                    <circle cx="5" cy="5" r="1.5" fill="currentColor"/>
+                                    <path d="M 5 5 C 10 10 15 12 18 18 Q 12 15 10 10" stroke-linecap="round"/>
+                                    <circle cx="20" cy="8" r="1" fill="currentColor"/>
+                                    <circle cx="8" cy="20" r="1" fill="currentColor"/>
+                                </svg>
+                                
+                                <!-- Centered Red Bold Text -->
+                                <div class="relative z-10 text-center flex flex-col items-center justify-center px-4 select-none">
+                                    <p class="text-[#E63925] font-black tracking-wide text-xs sm:text-xs leading-none uppercase font-sans">
+                                        POSICIONE SUA EMPRESA EM
+                                    </p>
+                                    <p class="text-[#E63925] font-black tracking-wide text-sm sm:text-[15px] leading-snug uppercase font-sans mt-2">
+                                        DESTAQUE NESTE PROJETO!
+                                    </p>
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
+                                <div class="absolute inset-0 border border-white/20 rounded-[9px] pointer-events-none"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder 2 -->
+                    <div class="relative group flex justify-center">
+                        <div class="w-full max-w-[340px] h-[148px] bg-gradient-to-b from-[#b48a4d]/60 via-[#e6d5c1]/30 to-[#b48a4d]/15 p-[3px] rounded-xl shadow-[0_15px_35px_rgba(0,0,0,0.6)] transition-all duration-500 hover:scale-105 hover:-translate-y-2">
+                            <div class="w-full h-full bg-gradient-to-br from-[#f1f3f5] via-[#cbd5e1] to-[#94a3b8] rounded-[9px] flex items-center justify-center relative overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.2)]">
+                                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.15)_100%)] rounded-[9px] pointer-events-none"></div>
+                                
+                                <!-- Corner Filigree Ornament (Upper-left) -->
+                                <svg class="absolute top-2.5 left-2.5 w-14 h-14 text-gray-500/35 pointer-events-none" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <path d="M 5 5 Q 12 5 20 8 Q 28 11 35 11" stroke-linecap="round"/>
+                                    <path d="M 5 5 Q 5 12 8 20 Q 11 28 11 35" stroke-linecap="round"/>
+                                    <circle cx="5" cy="5" r="1.5" fill="currentColor"/>
+                                    <path d="M 5 5 C 10 10 15 12 18 18 Q 12 15 10 10" stroke-linecap="round"/>
+                                    <circle cx="20" cy="8" r="1" fill="currentColor"/>
+                                    <circle cx="8" cy="20" r="1" fill="currentColor"/>
+                                </svg>
+                                
+                                <!-- Centered Red Bold Text -->
+                                <div class="relative z-10 text-center flex flex-col items-center justify-center px-4 select-none">
+                                    <p class="text-[#E63925] font-black tracking-wide text-xs sm:text-xs leading-none uppercase font-sans">
+                                        POSICIONE SUA EMPRESA EM
+                                    </p>
+                                    <p class="text-[#E63925] font-black tracking-wide text-sm sm:text-[15px] leading-snug uppercase font-sans mt-2">
+                                        DESTAQUE NESTE PROJETO!
+                                    </p>
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
+                                <div class="absolute inset-0 border border-white/20 rounded-[9px] pointer-events-none"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder 3 -->
+                    <div class="relative group flex justify-center">
+                        <div class="w-full max-w-[340px] h-[148px] bg-gradient-to-b from-[#b48a4d]/60 via-[#e6d5c1]/30 to-[#b48a4d]/15 p-[3px] rounded-xl shadow-[0_15px_35px_rgba(0,0,0,0.6)] transition-all duration-500 hover:scale-105 hover:-translate-y-2">
+                            <div class="w-full h-full bg-gradient-to-br from-[#f1f3f5] via-[#cbd5e1] to-[#94a3b8] rounded-[9px] flex items-center justify-center relative overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.2)]">
+                                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.15)_100%)] rounded-[9px] pointer-events-none"></div>
+                                
+                                <!-- Corner Filigree Ornament (Upper-left) -->
+                                <svg class="absolute top-2.5 left-2.5 w-14 h-14 text-gray-500/35 pointer-events-none" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <path d="M 5 5 Q 12 5 20 8 Q 28 11 35 11" stroke-linecap="round"/>
+                                    <path d="M 5 5 Q 5 12 8 20 Q 11 28 11 35" stroke-linecap="round"/>
+                                    <circle cx="5" cy="5" r="1.5" fill="currentColor"/>
+                                    <path d="M 5 5 C 10 10 15 12 18 18 Q 12 15 10 10" stroke-linecap="round"/>
+                                    <circle cx="20" cy="8" r="1" fill="currentColor"/>
+                                    <circle cx="8" cy="20" r="1" fill="currentColor"/>
+                                </svg>
+                                
+                                <!-- Centered Red Bold Text -->
+                                <div class="relative z-10 text-center flex flex-col items-center justify-center px-4 select-none">
+                                    <p class="text-[#E63925] font-black tracking-wide text-xs sm:text-xs leading-none uppercase font-sans">
+                                        POSICIONE SUA EMPRESA EM
+                                    </p>
+                                    <p class="text-[#E63925] font-black tracking-wide text-sm sm:text-[15px] leading-snug uppercase font-sans mt-2">
+                                        DESTAQUE NESTE PROJETO!
+                                    </p>
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
+                                <div class="absolute inset-0 border border-white/20 rounded-[9px] pointer-events-none"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- FAQ -->
+        <section class="py-16 px-6 bg-[#0a0502] text-[#EFE9DC]">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-[0.3em] serif uppercase">
+                        DÚVIDAS FREQUENTES
+                    </h2>
+                    <div class="w-24 h-px bg-[#8E7B5B]/30 mx-auto mt-6"></div>
+                </div>
+                <div id="faq-container" class="space-y-4">
+                    <!-- FAQ items will be injected here -->
+                </div>
+                <div class="text-center mt-24 space-y-8">
+                    <h3 class="text-3xl md:text-4xl serif italic text-[#EFE9DC]">Viva Nárnia no palco</h3>
+                    <a href="#ingressos" class="inline-block px-12 py-4 bg-[#8E7B5B] text-[#EFE9DC] font-bold tracking-widest text-xs uppercase hover:bg-[#5A3E2B] transition-all text-center">
+                        GARANTA SEU INGRESSO AGORA
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-24 px-6 bg-[#0a0502] text-[#EFE9DC]">
+        <div class="max-w-7xl mx-auto flex flex-col items-center text-center">
+            <h3 class="text-4xl md:text-5xl font-bold mb-8 text-[#8E7B5B] serif tracking-[0.5em] uppercase">NÁRNIA</h3>
+            <p class="text-sm md:text-base text-[#D6D6D2]/60 max-w-2xl mx-auto mb-12 italic leading-relaxed">
+                Uma experiência teatral transformadora inspirada na obra de C.S.<br class="hidden md:block" />
+                Lewis. Produzido com amor e dedicação à fantasia clássica.
+            </p>
+            <div class="flex gap-4 mb-20">
+                <a href="https://www.instagram.com/teatronarnia/" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center border border-[#8E7B5B]/20 rounded-md hover:bg-white/5 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8E7B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                </a>
+                <a href="https://www.facebook.com/teatronarnia" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center border border-[#8E7B5B]/20 rounded-md hover:bg-white/5 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8E7B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h5v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+            </div>
+            <div class="w-full pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-[#D6D6D2]/40">
+                <p>© 2026 NÁRNIA EXPERIENCE. PRODUÇÃO CULTURAL INDEPENDENTE.</p>
+                <p>SITE PRODUZIDO POR <a href="https://www.instagram.com/nndigitais/" target="_blank" rel="noopener noreferrer" class="text-[#8E7B5B] hover:underline">@NNDIGTAL</a></p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script type="module">
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        const toggleMenu = () => {
+            if (mobileMenu) mobileMenu.classList.toggle('translate-x-full');
+            document.body.classList.toggle('overflow-hidden');
+        };
+
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMenu);
+        if (closeMenuBtn) closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Snow Effect
+        const createSnowflake = () => {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snow-particle');
+            const size = Math.random() * 3 + 1 + 'px';
+            snowflake.style.width = size;
+            snowflake.style.height = size;
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.top = '-5px';
+            snowflake.style.opacity = (Math.random() * 0.4 + 0.2).toString();
+            const duration = Math.random() * 12 + 8 + 's';
+            snowflake.style.animation = `fall ${duration} linear forwards`;
+            document.body.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), parseFloat(duration) * 1000);
+        };
+        setInterval(createSnowflake, 400);
+
+        // Cast Data
+        const castData = [
+            { name: "Larissa Pimenta", role: "Lúcia", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Larissa-Pimenta.jpeg", position: "object-top" },
+            { name: "Arthur Miguel", role: "Edmundo", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Arthur-Miguel-.jpeg", position: "object-top" },
+            { name: "Thalyson Santiago", role: "Pedro", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Thalyson-Santiago-.jpeg", position: "object-top" },
+            { name: "Evelyn Nughes", role: "Susana", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Evelyn-Nughes-.jpeg", position: "object-center", scaleClass: "scale-[1.15] origin-center group-hover:scale-[1.25]" },
+            { name: "Gilberto Júnior Gil", role: "Aslan", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Gilberto-Junior-Gil-.jpeg", position: "object-top" },
+            { name: "Bruna Raste", role: "Jadis", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Bruna-Raste.jpeg", position: "object-top" },
+            { name: "Douglas Challub", role: "Lobo", image: "https://ndigitais.shop/wp-content/uploads/2026/06/Douglas.png", position: "object-top" },
+            { name: "Naldo Nacimento", role: "Raposa", image: "https://ndigitais.shop/wp-content/uploads/2026/06/naldo.png", position: "object-top" },
+            { name: "Olivia Ribeiro", role: "Brigitte", image: "https://ndigitais.shop/wp-content/uploads/2026/06/Olivia.png", position: "object-top" },
+            { name: "André Nascimento", role: "Sr Castor", image: "https://ndigitais.shop/wp-content/uploads/2026/04/ANDRE_NASCIMENTO.jpg", position: "object-top" },
+            { name: "Angel", role: "Sra Castor", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Angel.jpeg", position: "object-top" },
+            { name: "Eliaz Ferraz", role: "Tumnus", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Eliaz-Ferraz-.jpeg", position: "object-top" },
+            { name: "Tiago Lisboa", role: "Maugrim", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Tiago-Lisboa.jpeg", position: "object-center" },
+            { name: "Nathan Lucas", role: "Trumpkin", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Nathan-Lucas-.jpeg", position: "object-top" },
+            { name: "Júlio Oliveira", role: "Professor Digory", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Julio-Oliveira.jpeg", position: "object-top" },
+            { name: "Ana Carolina", role: "D. Marta", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Ana-Carolina.jpeg", position: "object-center", scaleClass: "scale-[1.15] origin-center group-hover:scale-[1.25]" },
+            { name: "Amanda Daniely", role: "Sra. Pevensie", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Amanda-Daniely.jpeg", position: "object-top" },
+            { name: "Grupo de Dança", role: "Dança", image: "https://ndigitais.shop/wp-content/uploads/2026/03/Danca.jpeg", position: "object-top" }
+        ];
+
+        const castCarousel = document.getElementById('cast-carousel');
+        if (castCarousel) {
+            castData.forEach((member) => {
+                const memberDiv = document.createElement('div');
+                memberDiv.className = 'flex-none w-[260px] md:w-72 scroll-snap-align-center';
+                const zoomEffect = member.scaleClass || 'group-hover:scale-110';
+                
+                // Setup kebab-case and other name values for robust fallback checks
+                const cleanName = member.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // removes accents
+                const kebab = cleanName.replace(/\s+/g, '-');
+                const snakeCap = cleanName.toUpperCase().replace(/\s+/g, '_');
+                
+                memberDiv.innerHTML = `
+                    <div class="relative p-4 md:p-6 bg-[#2a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.8)] group">
+                        <div class="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/leather.png')]"></div>
+                        <div class="relative p-4 bg-[#EFE9DC] border-[16px] border-double border-[#8E7B5B] shadow-[inset_0_0_15px_rgba(0,0,0,0.5),0_0_20px_rgba(142,123,91,0.4)]">
+                            <div class="absolute inset-0 border border-[#5A3E2B]/40 pointer-events-none"></div>
+                            <div class="relative aspect-[3/4] overflow-hidden bg-black">
+                                <img src="${member.image}" alt="${member.name}" class="w-full h-full object-cover ${member.position} grayscale brightness-110 contrast-125 transition-transform duration-700 ${zoomEffect}"
+                                    data-fallback-index="0"
+                                    data-kebab="${kebab}"
+                                    data-snake="${snakeCap}"
+                                    data-role="${member.role.toLowerCase()}"
+                                    onerror="
+                                        if (!this.dataset.tried) {
+                                            this.dataset.tried = '1';
+                                            const keb = this.dataset.kebab;
+                                            const snk = this.dataset.snake;
+                                            const rol = this.dataset.role;
+                                            const fallbacks = [
+                                                'https://ndigitais.shop/wp-content/uploads/2026/04/' + snk + '.jpg',
+                                                'https://ndigitais.shop/wp-content/uploads/2026/03/' + keb + '-.jpeg',
+                                                'https://ndigitais.shop/wp-content/uploads/2026/03/' + keb + '.jpeg',
+                                                'https://ndigitais.shop/wp-content/uploads/2026/04/' + keb + '.jpeg',
+                                                'https://ndigitais.shop/wp-content/uploads/2026/04/' + snk + '.jpeg',
+                                                'https://ndigitais.shop/wp-content/uploads/2026/03/' + keb + '.png'
+                                            ];
+                                            
+                                            // Theme fallback if the specific character images fail completely
+                                            if (rol.includes('lobo') || rol.includes('wolf')) {
+                                                fallbacks.push('https://images.unsplash.com/photo-1590424753856-fdf4d5b05814?auto=format&fit=crop&w=600&q=80');
+                                            } else if (rol.includes('raposa') || rol.includes('fox')) {
+                                                fallbacks.push('https://images.unsplash.com/photo-1474314881476-818a4adbcaf5?auto=format&fit=crop&w=600&q=80');
+                                            } else if (rol.includes('brigitte')) {
+                                                fallbacks.push('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80');
+                                            } else {
+                                                fallbacks.push('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80');
+                                            }
+                                            
+                                            let currentIdx = 0;
+                                            const tryNextUrl = () => {
+                                                if (currentIdx < fallbacks.length) {
+                                                    const nextUrl = fallbacks[currentIdx++];
+                                                    const tempImg = new Image();
+                                                    tempImg.onload = () => { this.src = nextUrl; };
+                                                    tempImg.onerror = tryNextUrl;
+                                                    tempImg.src = nextUrl;
+                                                }
+                                            };
+                                            tryNextUrl();
+                                        }
+                                    "
+                                    referrerPolicy="no-referrer" />
+                                <div class="absolute inset-0 bg-[#8E7B5B]/10 mix-blend-overlay"></div>
+                            </div>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <p class="text-[#8E7B5B] text-[10px] uppercase tracking-[0.3em] font-bold mb-1">${member.role}</p>
+                            <h4 class="text-[#EFE9DC] serif italic text-xl">${member.name}</h4>
+                        </div>
+                        <div class="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#8E7B5B]/40"></div>
+                        <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#8E7B5B]/40"></div>
+                        <div class="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#8E7B5B]/40"></div>
+                        <div class="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#8E7B5B]/40"></div>
+                    </div>
+                `;
+                castCarousel.appendChild(memberDiv);
+            });
+
+            // Carousel Auto-scroll
+            let isPaused = false;
+            castCarousel.addEventListener('mouseenter', () => isPaused = true);
+            castCarousel.addEventListener('mouseleave', () => isPaused = false);
+
+            setInterval(() => {
+                if (isPaused) return;
+                const { scrollLeft, scrollWidth, clientWidth } = castCarousel;
+                const maxScroll = scrollWidth - clientWidth;
+                const cardWidth = window.innerWidth < 768 ? 280 : 320;
+                
+                if (scrollLeft >= maxScroll - 10) {
+                    castCarousel.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    castCarousel.scrollTo({ left: scrollLeft + cardWidth, behavior: 'smooth' });
+                }
+            }, 3000);
+
+            const prevBtn = document.getElementById('prev-cast');
+            const nextBtn = document.getElementById('next-cast');
+            if (prevBtn) prevBtn.onclick = () => {
+                const cardWidth = window.innerWidth < 768 ? 280 : 320;
+                castCarousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            };
+            if (nextBtn) nextBtn.onclick = () => {
+                const cardWidth = window.innerWidth < 768 ? 280 : 320;
+                castCarousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            };
+        }
+
+        // Characters Data
+        const charactersData = [
+            {
+                id: "aslan",
+                charName: "Aslan",
+                actorName: "Gilberto Júnior Gil",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Aslan-Gilberto-Junior-Gil.jpg",
+                sidebarGradient: "from-[#422912] to-[#1a1006]",
+                photoBg: "from-[#2d1b0d] to-[#0d0904]",
+                position: "object-top"
+            },
+            {
+                id: "jadis",
+                charName: "Jadis",
+                actorName: "Bruna Raste",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Jadis-Bruna-Raste.jpg",
+                sidebarGradient: "from-[#19323f] to-[#0b171f]",
+                photoBg: "from-[#10222b] to-[#050a0f]",
+                position: "object-top"
+            },
+            {
+                id: "lucia",
+                charName: "Lúcia",
+                actorName: "Larissa Pimenta",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Lucia-Larissa-Pimenta.jpg",
+                sidebarGradient: "from-[#12311b] to-[#06140a]",
+                photoBg: "from-[#0b2111] to-[#030a05]",
+                position: "object-top"
+            },
+            {
+                id: "edmundo",
+                charName: "Edmundo",
+                actorName: "Arthur Miguel",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Edmundo-Arthur-Miguel.jpg",
+                sidebarGradient: "from-[#3d1010] to-[#1a0505]",
+                photoBg: "from-[#290a0a] to-[#0d0202]",
+                position: "object-top"
+            },
+            {
+                id: "pedro",
+                charName: "Pedro",
+                actorName: "Thalyson Santiago",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Pedro-Thalyson-Santiago.jpg",
+                sidebarGradient: "from-[#3d2f10] to-[#1a1305]",
+                photoBg: "from-[#291e0a] to-[#0d0702]",
+                position: "object-top"
+            },
+            {
+                id: "susana",
+                charName: "Susana",
+                actorName: "Evelyn Nughes",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Susana-Evelyn-Nughes.jpg",
+                sidebarGradient: "from-[#2a133d] to-[#11051c]",
+                photoBg: "from-[#1c0a29] to-[#07020d]",
+                position: "object-center",
+                scaleClass: "scale-[1.15] origin-center group-hover:scale-[1.25]"
+            },
+            {
+                id: "srcastor",
+                charName: "Sr. Castor",
+                actorName: "André Nascimento",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Sr-Castor-Andre-Nascimento.jpg",
+                sidebarGradient: "from-[#2c2016] to-[#100b07]",
+                photoBg: "from-[#1a130d] to-[#080503]",
+                position: "object-top"
+            },
+            {
+                id: "sracastor",
+                charName: "Sra. Castor",
+                actorName: "Angel",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Sra-Castor-Angel.jpg",
+                sidebarGradient: "from-[#30261f] to-[#140f0c]",
+                photoBg: "from-[#201814] to-[#080605]",
+                position: "object-top"
+            },
+            {
+                id: "tumnus",
+                charName: "Tumnus",
+                actorName: "Eliaz Ferraz",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Tumnus-Eliaz-Ferraz.jpg",
+                sidebarGradient: "from-[#331c0e] to-[#140a04]",
+                photoBg: "from-[#221208] to-[#0a0502]",
+                position: "object-top"
+            },
+            {
+                id: "maugrim",
+                charName: "Maugrim",
+                actorName: "Tiago Lisboa",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Maugrim-Tiago-Lisboa.jpg",
+                sidebarGradient: "from-[#212426] to-[#0f1012]",
+                photoBg: "from-[#151718] to-[#070809]",
+                position: "object-center"
+            },
+            {
+                id: "trumpkin",
+                charName: "Trumpkin",
+                actorName: "Nathan Lucas",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Trumpkin-Nathan-Lucas.jpg",
+                sidebarGradient: "from-[#20292b] to-[#0c1011]",
+                photoBg: "from-[#141b1c] to-[#050607]",
+                position: "object-top"
+            },
+            {
+                id: "digory",
+                charName: "Prof. Digory",
+                actorName: "Júlio Oliveira",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Professor-Digory-Julio-Oliveira.jpg",
+                sidebarGradient: "from-[#2d251d] to-[#110e0a]",
+                photoBg: "from-[#1e1913] to-[#070503]",
+                position: "object-top"
+            },
+            {
+                id: "marta",
+                charName: "D. Marta",
+                actorName: "Ana Carolina",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/D.-Marta-Ana-Carolina.jpg",
+                sidebarGradient: "from-[#1f2824] to-[#0c100e]",
+                photoBg: "from-[#141a17] to-[#050605]",
+                position: "object-center",
+                scaleClass: "scale-[1.15] origin-center group-hover:scale-[1.25]"
+            },
+            {
+                id: "pevensie",
+                charName: "Sra. Pevensie",
+                actorName: "Amanda Daniely",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Sra.-Pevensie.jpg",
+                sidebarGradient: "from-[#352528] to-[#140e0f]",
+                photoBg: "from-[#23181a] to-[#070505]",
+                position: "object-top"
+            },
+            {
+                id: "lobo",
+                charName: "Lobo",
+                actorName: "Douglas Challub",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Lobo-Douglas-Challub.jpg",
+                sidebarGradient: "from-[#24272c] to-[#0f1114]",
+                photoBg: "from-[#111317] to-[#050607]",
+                position: "object-top"
+            },
+            {
+                id: "raposa",
+                charName: "Raposa",
+                actorName: "Naldo Nacimento",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Raposa-Naldo-Nacimento.jpg",
+                sidebarGradient: "from-[#432314] to-[#1ia0e08]",
+                photoBg: "from-[#2d170d] to-[#0b0503]",
+                position: "object-top"
+            },
+            {
+                id: "brigitte",
+                charName: "Brigitte",
+                actorName: "Olivia Ribeiro",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Brigitte-Olivia-Ribeiro.jpg",
+                sidebarGradient: "from-[#2d1b28] to-[#130b11]",
+                photoBg: "from-[#1a1017] to-[#070406]",
+                position: "object-top"
+            },
+            {
+                id: "danca",
+                charName: "Dança",
+                actorName: "Grupo de Dança",
+                image: "https://ndigitais.shop/wp-content/uploads/2026/06/Danca1.jpg",
+                sidebarGradient: "from-[#122e37] to-[#06141a]",
+                photoBg: "from-[#0a1e24] to-[#02070a]",
+                position: "object-center",
+                scaleClass: "scale-[1.1] origin-center group-hover:scale-[1.2]"
+            }
+        ];
+
+        const charCarousel = document.getElementById('char-carousel');
+        if (charCarousel) {
+            charactersData.forEach((char) => {
+                const charDiv = document.createElement('div');
+                charDiv.className = 'flex-none w-[275px] md:w-[310px] h-[410px] md:h-[450px] scroll-snap-align-center select-none';
+                
+                const zoomEffect = char.scaleClass || 'group-hover:scale-110';
+                
+                // Setup kebab-case and other name values for robust fallback checks
+                const cleanActorName = char.actorName.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // removes accents
+                const kebab = cleanActorName.replace(/\s+/g, '-');
+                const snakeCap = cleanActorName.toUpperCase().replace(/\s+/g, '_');
+                
+                charDiv.innerHTML = `
+                    <div class="relative w-full h-full bg-[#0a0502] rounded-[1.75rem] overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.7)] cursor-pointer border border-[#b48a4d]/20 hover:border-[#b48a4d]/40 flex transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_25px_60px_rgba(0,0,0,0.9)]">
+                        <!-- Background subtle visual texture pattern on the whole card -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/leather.png')] mix-blend-overlay z-10"></div>
+                        
+                        <!-- LEFT HEADER BAR WITH ROTATED CHARACTER NAME - IN PERFECT EVIDENCE -->
+                        <div class="w-[72px] md:w-[82px] h-full flex flex-col justify-between items-center py-6 border-r border-[#b48a4d]/20 bg-gradient-to-b ${char.sidebarGradient} relative z-20 shadow-[5px_0_15px_rgba(0,0,0,0.4)]">
+                            <!-- Subtle top banner label -->
+                            <span class="text-[8px] uppercase tracking-[0.25em] text-[#b48a4d] font-bold serif scale-90">NÁRNIA</span>
+                            
+                            <!-- Vertical Name Block - Centered and highly emphasized -->
+                            <div class="h-full flex items-center justify-center py-2 overflow-hidden">
+                                <span class="text-[#efe9dc] group-hover:text-white font-black text-2xl md:text-3xl tracking-[0.12em] uppercase font-sans drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)] whitespace-nowrap block select-none transition-colors duration-300" style="writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed;">
+                                    ${char.charName}
+                                </span>
+                            </div>
+                            
+                            <!-- Classic Age Rating green badge from original layout, customized for Narnia -->
+                            <div class="flex items-center justify-center bg-green-700 text-white font-serif font-black text-[10px] w-5 h-5 rounded-sm shadow-md border border-green-500/20">
+                                L
+                            </div>
+                        </div>
+
+                        <!-- RIGHT SIDE WITH ACTOR PHOTO AND PREMIUM STYLING -->
+                        <div class="flex-1 h-full relative overflow-hidden bg-[#0c0604]">
+                            <!-- Colored backdrop glow matching the character's cinematic theme -->
+                            <div class="absolute inset-0 bg-gradient-to-br ${char.photoBg} opacity-35 mix-blend-multiply pointer-events-none"></div>
+                            
+                            <!-- Actor Photo -->
+                            <img src="${char.image}" alt="${char.charName} interpretado por ${char.actorName}" class="w-full h-full object-cover ${char.position} grayscale-0 contrast-[1.05] brightness-[1.02] duration-700 ease-out transition-transform ${zoomEffect}"
+                                data-fallback-index="0"
+                                data-kebab="${kebab}"
+                                data-snake="${snakeCap}"
+                                data-char="${char.charName.toLowerCase()}"
+                                onerror="
+                                    if (!this.dataset.tried) {
+                                        this.dataset.tried = '1';
+                                        const keb = this.dataset.kebab;
+                                        const snk = this.dataset.snake;
+                                        const chr = this.dataset.char;
+                                        const fallbacks = [
+                                            'https://ndigitais.shop/wp-content/uploads/2026/04/' + snk + '.jpg',
+                                            'https://ndigitais.shop/wp-content/uploads/2026/03/' + keb + '-.jpeg',
+                                            'https://ndigitais.shop/wp-content/uploads/2026/03/' + keb + '.jpeg',
+                                            'https://ndigitais.shop/wp-content/uploads/2026/04/' + keb + '.jpeg',
+                                            'https://ndigitais.shop/wp-content/uploads/2026/04/' + snk + '.jpeg',
+                                            'https://ndigitais.shop/wp-content/uploads/2026/03/' + keb + '.png'
+                                        ];
+                                        
+                                        // Specific themed fallbacks if all wordpress image matches fail
+                                        if (chr.includes('lobo') || chr.includes('wolf')) {
+                                            fallbacks.push('https://images.unsplash.com/photo-1590424753856-fdf4d5b05814?auto=format&fit=crop&w=600&q=80');
+                                        } else if (chr.includes('raposa') || chr.includes('fox')) {
+                                            fallbacks.push('https://images.unsplash.com/photo-1474314881476-818a4adbcaf5?auto=format&fit=crop&w=600&q=80');
+                                        } else if (chr.includes('brigitte')) {
+                                            fallbacks.push('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80');
+                                        } else {
+                                            fallbacks.push('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80');
+                                        }
+                                        
+                                        let currentIdx = 0;
+                                        const tryNextUrl = () => {
+                                            if (currentIdx < fallbacks.length) {
+                                                const nextUrl = fallbacks[currentIdx++];
+                                                const tempImg = new Image();
+                                                tempImg.onload = () => { this.src = nextUrl; };
+                                                tempImg.onerror = tryNextUrl;
+                                                tempImg.src = nextUrl;
+                                            }
+                                        };
+                                        tryNextUrl();
+                                    }
+                                "
+                                referrerPolicy="no-referrer" />
+                            
+                            <!-- Sophisticated dark gradient overlays to ensure stellar typography readability -->
+                            <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/35 to-transparent z-10 pointer-events-none"></div>
+                            <div class="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black/55 to-transparent z-10 pointer-events-none"></div>
+
+                            <!-- Top right ambient category label -->
+                            <div class="absolute top-5 right-5 opacity-40 text-[7px] uppercase tracking-[0.2em] text-[#efe9dc] font-extrabold z-20 pointer-events-none">
+                                PERSONAGEM
+                            </div>
+
+                            <!-- Actor name & Production metadata at the bottom -->
+                            <div class="absolute bottom-5 left-5 right-5 z-20 pointer-events-none flex flex-col justify-end">
+                                <span class="text-[8px] uppercase tracking-[0.2em] text-[#b48a4d] font-black mb-0.5 leading-none">ATOR / ATRIZ</span>
+                                <h4 class="text-[13px] md:text-[14px] text-white font-sans tracking-wide font-black drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)] leading-tight truncate">
+                                    ${char.actorName}
+                                </h4>
+                                
+                                <!-- Premium card-footer divider with mini-logos style -->
+                                <div class="w-full border-t border-white/10 mt-3 pt-2 flex items-center justify-between opacity-40 text-[7px] uppercase tracking-[0.08em] font-sans text-white">
+                                    <span>TEMPORADA 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                charCarousel.appendChild(charDiv);
+            });
+
+            // Carousel buttons configuration
+            const prevCharBtn = document.getElementById('prev-char');
+            const nextCharBtn = document.getElementById('next-char');
+            if (prevCharBtn && nextCharBtn) {
+                prevCharBtn.onclick = () => {
+                    const cardWidth = window.innerWidth < 768 ? 295 : 345;
+                    charCarousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                };
+                nextCharBtn.onclick = () => {
+                    const cardWidth = window.innerWidth < 768 ? 295 : 345;
+                    charCarousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                };
+            }
+        }
+
+        // FAQ Data
+        const faqData = [
+            {
+                question: "Onde será a apresentação?",
+                answer: "O espetáculo será realizado no Teatro Santo Agostinho, localizado na Rua dos Aimorés, 2679 – Lourdes, Belo Horizonte/MG."
+            },
+            {
+                question: "Criança paga ingresso?",
+                answer: "Sim, conforme a classificação etária do evento e legislação vigente de meia-entrada."
+            },
+            {
+                question: "Posso comprar no dia?",
+                answer: "Somente se houver disponibilidade. Como temos capacidade limitada, recomendamos garantir antecipadamente."
+            },
+            {
+                question: "Por qual plataforma os ingressos são vendidos? Existe taxa?",
+                answer: "Os ingressos são vendidos pela plataforma Sympla, que realiza a cobrança de uma taxa de serviço no momento da compra."
+            }
+        ];
+
+        const faqContainer = document.getElementById('faq-container');
+        if (faqContainer) {
+            faqData.forEach((item) => {
+                const faqItem = document.createElement('div');
+                faqItem.className = 'border border-white/5 rounded-lg overflow-hidden bg-white/[0.02] transition-all duration-300';
+                faqItem.innerHTML = `
+                    <button class="w-full p-6 text-left flex justify-between items-center group hover:bg-white/[0.03] transition-colors" aria-expanded="false">
+                        <h3 class="text-lg italic text-[#8E7B5B] serif group-hover:text-[#b48a4d] transition-colors">${item.question}</h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E7B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform transition-transform duration-300"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out bg-white/[0.01]">
+                        <div class="p-6 pt-0 text-sm text-[#D6D6D2]/70 font-light leading-relaxed border-t border-white/5 mt-2">
+                            ${item.answer}
+                        </div>
+                    </div>
+                `;
+
+                const button = faqItem.querySelector('button');
+                const answer = faqItem.querySelector('.faq-answer');
+                const icon = faqItem.querySelector('svg');
+
+                button?.addEventListener('click', () => {
+                    const isOpen = button.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close all other items (optional, but cleaner)
+                    document.querySelectorAll('#faq-container button').forEach(btn => {
+                        if (btn !== button) {
+                            btn.setAttribute('aria-expanded', 'false');
+                            const otherAnswer = btn.nextElementSibling;
+                            if (otherAnswer) otherAnswer.style.maxHeight = '0';
+                            btn.querySelector('svg')?.classList.remove('rotate-180');
+                        }
+                    });
+
+                    // Toggle current item
+                    button.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+                    if (!isOpen) {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                        icon?.classList.add('rotate-180');
+                    } else {
+                        answer.style.maxHeight = '0';
+                        icon?.classList.remove('rotate-180');
+                    }
+                });
+
+                faqContainer.appendChild(faqItem);
+            });
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carousel Controller
+            const carousel = document.getElementById('gallery-carousel');
+            const carouselContainer = document.getElementById('gallery-carousel-container');
+            const prevBtn = document.getElementById('carousel-prev');
+            const nextBtn = document.getElementById('carousel-next');
+            const dots = document.querySelectorAll('.carousel-dot');
+            const totalSlides = 10;
+            let currentSlide = 0;
+            let autoplayInterval;
+
+            function updateCarousel() {
+                if (carousel) {
+                    carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+                }
+                
+                // Set container aspect ratio dynamically based on active image
+                if (carousel && carouselContainer) {
+                    const currentSlideElement = carousel.children[currentSlide];
+                    if (currentSlideElement) {
+                        const currentImg = currentSlideElement.querySelector('img');
+                        if (currentImg && currentImg.naturalWidth && currentImg.naturalHeight) {
+                            carouselContainer.style.aspectRatio = `${currentImg.naturalWidth} / ${currentImg.naturalHeight}`;
+                        }
+                    }
+                }
+
+                dots.forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.add('bg-[#b48a4d]');
+                        dot.classList.remove('bg-[#efe9dc]/30');
+                    } else {
+                        dot.classList.remove('bg-[#b48a4d]');
+                        dot.classList.add('bg-[#efe9dc]/30');
+                    }
+                });
+            }
+
+            // Hook load events on all images to update aspect ratio
+            if (carousel) {
+                const carouselImages = carousel.querySelectorAll('img');
+                carouselImages.forEach((img, idx) => {
+                    img.addEventListener('load', () => {
+                        if (idx === currentSlide) {
+                            updateCarousel();
+                        }
+                    });
+                    if (img.complete && idx === currentSlide) {
+                        updateCarousel();
+                    }
+                });
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateCarousel();
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    prevSlide();
+                    resetAutoplay();
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    nextSlide();
+                    resetAutoplay();
+                });
+            }
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    currentSlide = parseInt(e.target.dataset.index);
+                    updateCarousel();
+                    resetAutoplay();
+                });
+            });
+
+            function startAutoplay() {
+                autoplayInterval = setInterval(nextSlide, 4500);
+            }
+
+            function resetAutoplay() {
+                clearInterval(autoplayInterval);
+                startAutoplay();
+            }
+
+            startAutoplay();
+            updateCarousel();
+
+            // Depoimentos Carousel Controller
+            const depoCarousel = document.getElementById('depoimentos-carousel');
+            const depoPrevBtn = document.getElementById('depo-prev');
+            const depoNextBtn = document.getElementById('depo-next');
+            const depoDots = document.querySelectorAll('.depo-dot');
+            const totalDepoSlides = 2;
+            let currentDepoSlide = 0;
+
+            function updateDepoCarousel() {
+                if (depoCarousel) {
+                    depoCarousel.style.transform = `translateX(-${currentDepoSlide * 100}%)`;
+                }
+
+                depoDots.forEach((dot, index) => {
+                    if (index === currentDepoSlide) {
+                        dot.classList.add('bg-[#b48a4d]', 'w-6');
+                        dot.classList.remove('bg-[#efe9dc]/30', 'w-2.5');
+                    } else {
+                        dot.classList.remove('bg-[#b48a4d]', 'w-6');
+                        dot.classList.add('bg-[#efe9dc]/30', 'w-2.5');
+                    }
+                });
+            }
+
+            function nextDepoSlide() {
+                currentDepoSlide = (currentDepoSlide + 1) % totalDepoSlides;
+                updateDepoCarousel();
+            }
+
+            function prevDepoSlide() {
+                currentDepoSlide = (currentDepoSlide - 1 + totalDepoSlides) % totalDepoSlides;
+                updateDepoCarousel();
+            }
+
+            if (depoPrevBtn) {
+                depoPrevBtn.addEventListener('click', () => {
+                    prevDepoSlide();
+                });
+            }
+
+            if (depoNextBtn) {
+                depoNextBtn.addEventListener('click', () => {
+                    nextDepoSlide();
+                });
+            }
+
+            depoDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentDepoSlide = index;
+                    updateDepoCarousel();
+                });
+            });
+
+            // Initialize Depoimentos Carousel
+            updateDepoCarousel();
+        });
+    </script>
+</body>
+</html>
